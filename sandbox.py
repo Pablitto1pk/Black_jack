@@ -1,5 +1,6 @@
-from models import Card
-from player import Hand
+from blackjack.cards import Card
+from blackjack.hand import Hand
+from blackjack.participants import Player, Dealer
 
 print("--- TESTOWANIE LOGIKI ASÓW ---")
 
@@ -7,16 +8,15 @@ print("--- TESTOWANIE LOGIKI ASÓW ---")
 test_hand = Hand()
 
 # Dajemy graczowi Króla (10) i Asa (11)
-test_hand.add_card(Card('Spades', 'King', 10))
+test_hand.add_card(Card('Spades', '6', 6))
 test_hand.add_card(Card('Hearts', 'Ace', 11))
 
-print(f"Karty w ręce: 10 + 11. Suma: {test_hand.value}")
 
 # Dodajemy drugiego Asa (11)
 print("\nDobieramy drugiego Asa...")
-test_hand.add_card(Card('Clubs', 'Ace', 11))
-print(f"Suma przed korektą: {test_hand.value}") # Tu wyjdzie 32 punkty
+test_hand.add_card(Card('Clubs', '5', 5))
+print(f"Suma przed korektą: {test_hand.value}") 
 
 # Odpalamy naszą funkcję naprawczą
 test_hand.adjust_for_ace()
-print(f"Suma po korekcie: {test_hand.value}") # Tu powinno zbić do 12 (10 + 1 + 1)
+print(f"Suma po korekcie: {test_hand.value}") 

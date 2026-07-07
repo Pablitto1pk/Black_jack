@@ -4,7 +4,7 @@ def show_board(player, dealer, reveal_dealer = False):
     if reveal_dealer:
         print(f"Krupier: {[str(card) for card in dealer.hand.cards]} (Punkty: {dealer.hand.value})")
     else:
-        print(f"Krupier: [{dealer.hand.cards[0]}, <ZAKRYTA>]")
+        print(f"Krupier: [{dealer.hand.cards[0]}, <ZAKRYTA>] (Punkty: {dealer.hand.cards[0].value})")
 
     # Karty gracza
     for i, hand in enumerate(player.hands):
@@ -17,12 +17,18 @@ def show_board(player, dealer, reveal_dealer = False):
 def display_msg(msg):
     #uniwersalna funkcja do wyswietlania wiadomosci
     print(f"\n {msg}")
-
+def display_choice():
+    print(f"\n >> H/S?")
+          
 def display_hit(card):
     print(f"\n >> Dobrano kartę {card.rank} of {card.suit} o wartości {card.value}")
 
 def display_stand(hand_number):
     print(f"\n Zostajesz, dla ręki nr {hand_number}")
+
+
+def display_bust(hand_number):
+    print(f"Ponad 21 punktów, ręka nr {hand_number} przegrała")
 
 def display_blackjack_player():
     print(f"Black Jack!")
