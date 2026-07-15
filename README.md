@@ -1,2 +1,2 @@
 # Black_jack
-1 solo projekt, mający na celu rozwijanie umiejętności programowania
+  Projekt gry w BlackJacka napisany w pythonie. Projekt zakłada stworzenie działającej gry, z możliwością symulacji rozgrywania przez wielu graczy AI, bazy danych wyników, następnie analizy danych średnich strat gracza, wpływ zastosowania sieci neuronowej wyszkolonej na optymalnej metodzie gry, a następnie zbadanie wpływu zastosowania sieci neuronowej ze zliczaniem kart by zbadać wpływ optymalnej strategii, liczenia kart, manipulacji rozmiaru Bet'u oraz zlokalizowania w bucie (ang. shoe) karty kończoncej rozdanie na średnie Expected Value dla stałego betu i potencjalne zyski przy zmiennym bet size. 
