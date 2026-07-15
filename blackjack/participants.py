@@ -15,7 +15,7 @@ class Dealer:
         self.hand = Hand()
     def check_for_blackjack(self):
         if len(self.hand.cards) == 2 and self.hand.value == 21:
-            up_card = self.hand.card[0]
+            up_card = self.hand.cards[0]
 
             if up_card.value == 10 or up_card.value == 11:
                 return True

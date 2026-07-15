@@ -3,7 +3,7 @@ class Hand:
         self.cards = []
         self.value = 0
         self.aces = 0
-
+        self.bet = 0
 
     def add_card(self, card):
         self.cards.append(card)
