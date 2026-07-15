@@ -17,9 +17,15 @@ def show_board(player, dealer, reveal_dealer = False):
 def display_msg(msg):
     #uniwersalna funkcja do wyswietlania wiadomosci
     print(f"\n {msg}")
-def display_choice():
-    print(f"\n >> H/S?")
-          
+
+def display_choice(can_double=False, can_split=False):
+    opcje = "H/S"
+    if can_double:
+        opcje += "/D"
+    if can_split:
+        opcje += "/P"
+    print(f"\n >> {opcje}?")
+
 def display_hit(card):
     print(f"\n >> Dobrano kartę {card.rank} of {card.suit} o wartości {card.value}")
 
@@ -40,7 +46,7 @@ def display_blackjack_dealer():
     print(f"\n Dealer ma Black Jacka")
 
 def display_invalid_input():
-    print("\n Niepoprawna komenda. Wpisz 'H' lub 'S'.")
+    print("\n Niepoprawna komenda. Wpisz 'H', 'S', 'D' lub 'P' (zależnie od dostępnych opcji).")
 
 def display_win(points):
     print(f"\n Wygrałeś {points} punktów")
@@ -50,6 +56,12 @@ def display_lose(points):
 
 def display_points(points):
     print(f"\n Posiadasz {points} punktów")
-    
+
 def display_push():
     print(f"\n Remis (Push). Zatrzymujesz swoje żetony.")
+
+def display_double(hand_number):
+    print(f"\n >> Podwajasz zakład dla ręki nr {hand_number}!")
+
+def display_split(hand_number):
+    print(f"\n >> Rozdzielasz parę - ręka nr {hand_number} zostaje podzielona na dwie ręce!")
