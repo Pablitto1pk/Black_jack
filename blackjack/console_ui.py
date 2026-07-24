@@ -65,3 +65,80 @@ def display_double(hand_number):
 
 def display_split(hand_number):
     print(f"\n >> Rozdzielasz parę - ręka nr {hand_number} zostaje podzielona na dwie ręce!")
+
+
+# --- Implementacje decide/decide_bet/notify pod silnik (blackjack/engine.py) ---
+# To jest JEDYNE miejsce, gdzie konsolowa gra dotyka input()/print bezposrednio
+# w kontekscie silnika - cala reszta (walidacja, retry przy zlym wpisie) siedzi
+# tutaj, nie w engine.py.
+
+def console_decide(hand, dealer_upcard, allowed_actions):
+    can_double = "D" in allowed_actions
+    can_split = "P" in allowed_actions
+    while True:
+        display_choice(can_double=can_double, can_split=can_split)
+        decision = input().upper()
+        if decision not in allowed_actions:
+            display_invalid_input()
+            continue
+        return decision
+
+
+def console_decide_bet(player, min_bet, max_bet, shoe):
+    # Parametr shoe jest tu ignorowany - zostaje pod przyszle boty liczace karty,
+    # zeby nie trzeba bylo pozniej zmieniac sygnatury tej funkcji.
+    while True:
+        wpis = input(f"Ile obstawiasz? (min. {min_bet}, albo 'n' aby zakonczyc) ").strip().lower()
+        if wpis in ("n", "nie"):
+            return None
+        try:
+            bet = int(wpis)
+        except ValueError:
+            print("Podaj liczbe (kwote zakladu) albo 'n' aby zakonczyc.")
+            continue
+        if bet < min_bet:
+            print(f"Zaklad musi wynosic co najmniej {min_bet}.")
+            continue
+        if bet > max_bet:
+            print(f"Za wysoki zaklad - portfel musi pokrywac rezerwe na ewentualne "
+                  f"splity/double. Maksymalny bezpieczny zaklad: {max_bet}.")
+            continue
+        return bet
+
+
+def console_notify(event, **data):
+    if event == "board_update":
+        show_board(data["player"], data["dealer"], reveal_dealer=data.get("reveal_dealer", False))
+    elif event == "dealer_blackjack":
+        display_blackjack_dealer()
+    elif event == "player_blackjack":
+        display_blackjack_player()
+    elif event == "hit":
+        display_hit(data["card"])
+    elif event == "stand":
+        display_stand(data["hand_number"])
+    elif event == "bust":
+        display_bust(data["hand_number"])
+    elif event == "twenty_one":
+        display_21(data["hand_number"])
+    elif event == "double":
+        display_double(data["hand_number"])
+    elif event == "split":
+        display_split(data["hand_number"])
+    elif event == "win":
+        display_win(data["amount"])
+    elif event == "push":
+        display_push()
+    elif event == "lose":
+        display_lose(data["amount"])
+    elif event == "reshuffle":
+        display_msg("Karta odcinajaca osiagnieta - tasujemy nowy but.")
+    elif event == "round_end":
+        print(data["results"])
+        print(f"Portfel: {data['bankroll']:.0f} PLN")
+    elif event == "game_end":
+        print(f"\nKoniec gry. Koncowy portfel: {data['bankroll']} PLN")
+    else:
+        # nieznany event - przydatne przy dodawaniu nowych eventow w przyszlosci,
+        # zeby cicho nie zgubic informacji zamiast rzucic wyjatek
+        print(f"[nieznany event notify]: {event} {data}")
