@@ -55,6 +55,16 @@ cover/
 *.mo
 *.pot
 
+# Blackjack - baza danych symulacji/statystyk (SQLite + pliki WAL)
+blackjack_data.db
+blackjack_data.db-journal
+blackjack_data.db-wal
+blackjack_data.db-shm
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
 # Django stuff:
 *.log
 local_settings.py

@@ -1,0 +1,17 @@
+[project]
+name = "blackjack"
+version = "0.1.0"
+description = "Blackjack - silnik gry, symulacje botow, analiza danych"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas",
+    "matplotlib",
+    "jupyter",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["blackjack*"]

@@ -48,6 +48,12 @@ def apply_payouts(player, results, notify):
         payout = hand.bet * WYPLATY[wynik]
         player.bankroll += payout
 
+        # Jeden, kompletny event pod baze danych/statystyki (nie pod konsole -
+        # ta ma juz swoje win/push/lose nizej). Niesie wszystko naraz, zeby
+        # notify zapisujace do bazy nie musialo nic sklejac z kilku eventow.
+        notify("hand_resolved", hand_number=i + 1, bet=hand.bet,
+               final_value=hand.value, result=wynik, payout=payout)
+
         if wynik in ("win", "blackjack"):
             notify("win", hand_number=i + 1, amount=payout - hand.bet)
         elif wynik == "push":
@@ -114,6 +120,13 @@ def play_round(player, dealer, shoe, bet, decide, notify):
                 f"decide() zwrocilo niedozwolona akcje {decision!r}, "
                 f"dozwolone byly: {allowed_actions} (to blad implementacji decide, nie silnika)"
             )
+
+            # Event pod baze danych - stan REKI PRZED wykonaniem akcji, zeby
+            # dalo sie pozniej porownac z tablica "optymalnej" decyzji.
+            notify("decision", hand_number=i + 1, hand_value=hand.value,
+                   is_soft=(hand.aces > 0 and hand.value < 21),
+                   dealer_upcard=dealer.hand.cards[0].value,
+                   allowed_actions=list(allowed_actions), action=decision)
 
             if decision == "H":
                 hand.add_card(shoe.deal_one())
